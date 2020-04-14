@@ -1,5 +1,6 @@
 package died.guia06;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,86 @@ public class Curso {
 	}
 	
 
+	public Integer getCreditos() {
+		return creditos;
+	}
+
+
+	public void setCreditos(Integer creditos) {
+		this.creditos = creditos;
+	}
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public Integer getCicloLectivo() {
+		return cicloLectivo;
+	}
+
+
+	public void setCicloLectivo(Integer cicloLectivo) {
+		this.cicloLectivo = cicloLectivo;
+	}
+
+
+	public Integer getCupo() {
+		return cupo;
+	}
+
+
+	public void setCupo(Integer cupo) {
+		this.cupo = cupo;
+	}
+
+
+	public List<Alumno> getInscriptos() {
+		return inscriptos;
+	}
+
+
+	public void setInscriptos(List<Alumno> inscriptos) {
+		this.inscriptos = inscriptos;
+	}
+
+
+	public Integer getCreditosRequeridos() {
+		return creditosRequeridos;
+	}
+
+
+	public void setCreditosRequeridos(Integer creditosRequeridos) {
+		this.creditosRequeridos = creditosRequeridos;
+	}
+
+
+	public Registro getLog() {
+		return log;
+	}
+
+
+	public void setLog(Registro log) {
+		this.log = log;
+	}
+
+
 	/**
 	 * Este método, verifica si el alumno se puede inscribir y si es así lo agrega al curso,
 	 * agrega el curso a la lista de cursos en los que está inscripto el alumno y retorna verdadero.
@@ -46,8 +127,17 @@ public class Curso {
 	 * @return
 	 */
 	public Boolean inscribir(Alumno a) {
-		log.registrar(this, "inscribir ",a.toString());
-		return false;
+		try {
+	//	if((this.cupo > this.inscriptos.size()) && (a.getCursando()).size() < 3 && a.creditosObtenidos() >= this.creditosRequeridos) {
+	//			return true;
+	//		}
+			log.registrar(this, "inscribir ",a.toString());
+		}catch (IOException excepcion1) {
+			System.out.println("No se pudo inscribir alumno");
+			excepcion1.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	
@@ -55,7 +145,13 @@ public class Curso {
 	 * imprime los inscriptos en orden alfabetico
 	 */
 	public void imprimirInscriptos() {
-		log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
+		try {
+			
+			log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
+		}catch (IOException excepcion1) {
+			System.out.println("No se pudo imprimir lista de Inscriptos");
+			excepcion1.printStackTrace();
+		}
 	}
 
 
