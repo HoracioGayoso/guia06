@@ -128,9 +128,7 @@ public class Curso {
 	 */
 	public Boolean inscribir(Alumno a) {
 		try {
-	//	if((this.cupo > this.inscriptos.size()) && (a.getCursando()).size() < 3 && a.creditosObtenidos() >= this.creditosRequeridos) {
-	//			return true;
-	//		}
+
 			log.registrar(this, "inscribir ",a.toString());
 		}catch (IOException excepcion1) {
 			System.out.println("No se pudo inscribir alumno");
