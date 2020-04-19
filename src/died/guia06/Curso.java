@@ -2,6 +2,8 @@ package died.guia06;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,6 +15,8 @@ import died.guia06.util.Registro;
  * Un curso, al aprobarlo, otorga una cantidad de creditos definidas en el curso.
  * Un curso requiere que para inscribirnos tengamos al menos la cantidad de creditos requeridas, y que haya cupo disponible
  * @author marti
+ * 
+ * 
  *
  */
 public class Curso {
@@ -144,30 +148,73 @@ public class Curso {
 	 */
 	public Boolean inscribir(Alumno a) {
 		try {
-
+			if(a.creditosObtenidos() >= this.creditosRequeridos &&
+					this.inscriptos.size() <= this.cupo &&
+					a.getCursando().size() < 3) {
+				if(this.inscriptos==null) inscriptos = new ArrayList<Alumno>();
+				this.inscriptos.add(a);
+				a.inscripcionAceptada(this);
+			}
 			log.registrar(this, "inscribir ",a.toString());
+			return true;
 		}catch (IOException excepcion1) {
 			System.out.println("No se pudo inscribir alumno");
 			excepcion1.printStackTrace();
 			return false;
 		}
-		return true;
 	}
 	
 	
 	/**
 	 * imprime los inscriptos en orden alfabetico
 	 */
-	public void imprimirInscriptos() {
+	public void imprimirInscriptos(Orden Ordenamiento) {
 		try {
-			
 			log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
+			switch(Ordenamiento) {
+				
+			
+			case ALFABETICAMENTE:
+					Collections.sort(this.inscriptos);
+					System.out.println(this.inscriptos);
+					break;
+					//ORDENA LA LISTA DE INSCRIPTOS POR ORDEN ALFABETICO
+				
+				
+				case NROLIBRETA:
+					Collections.sort(this.inscriptos, new Comparator<Alumno>() {
+						public int compare (Alumno a1, Alumno a2) {
+						return a1.getNroLibreta()-a1.getNroLibreta();
+						}
+					});
+						System.out.println(this.inscriptos);
+						break;
+			//ORDENA LA LISTA DE INSCRIPTOS POR NRO DE LIBRETA, DE MENOR A MAYOR
+				
+			
+				case CREDITOS:
+					Collections.sort(this.inscriptos, new Comparator<Alumno>() {
+						public int compare (Alumno a1, Alumno a2) {
+						return a2.creditosObtenidos()-a1.creditosObtenidos(); 
+						}
+					});
+						System.out.println(this.inscriptos);
+						break;
+			}
+				//ORDENA LA LISTA DE INSCRIPTOS POR CANTIDAD DE CREDITOS OBTENIDOS, DE MAYOR A MENOR
+			
+		
+			
 		}catch (IOException excepcion1) {
 			System.out.println("No se pudo imprimir lista de Inscriptos");
 			excepcion1.printStackTrace();
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "Curso [getInscriptos()=" + getInscriptos() + "]";
+	}
 
-
+	
 }
