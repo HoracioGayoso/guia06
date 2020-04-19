@@ -1,7 +1,7 @@
 package died.guia06;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class Alumno implements Comparable<Alumno>{
@@ -13,6 +13,27 @@ public class Alumno implements Comparable<Alumno>{
 
 	
 
+
+
+	public Alumno(String nombre, Integer nroLibreta, List<Curso> cursando, List<Curso> aprobados) {
+		super();
+		this.nombre = nombre;
+		this.nroLibreta = nroLibreta;
+		this.cursando = cursando;
+		this.aprobados = aprobados;
+	}
+	
+
+	public Alumno(String nombre, Integer nroLibreta) {
+		super();
+		this.nombre = nombre;
+		this.nroLibreta = nroLibreta;
+	}
+
+
+	public Alumno() {
+		super();
+	}
 
 
 	public String getNombre() {
@@ -49,18 +70,25 @@ public class Alumno implements Comparable<Alumno>{
 
 	public int creditosObtenidos() {
 		int creditos=0;
+		if(aprobados != null) {
 		for(Curso unCurso : aprobados) {
-			creditos += unCurso.getCreditos();
+			creditos+=unCurso.getCreditos();
+		}
 		}
 		return creditos;
 	}
 
 	public void aprobar(Curso c) {
-		this.aprobados.add(c);
+		if(cursando!=null && cursando.contains(c)) {
+			if(aprobados==null) {aprobados = new ArrayList<Curso>();}
+			this.aprobados.add(c);
+			this.cursando.remove(c);
+			}
 	}
 
 	public void inscripcionAceptada(Curso c) {
-		this.cursando.add(c);
+		if(cursando==null) cursando = new ArrayList<Curso>(); 
+		if(!cursando.contains(c)) this.cursando.add(c);
 	}
 
 	@Override

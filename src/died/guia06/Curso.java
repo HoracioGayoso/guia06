@@ -3,6 +3,7 @@ package died.guia06;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import died.guia06.util.Registro;
 
@@ -21,6 +22,7 @@ public class Curso {
 	private Integer cicloLectivo;
 	private Integer cupo; 
 	private List<Alumno> inscriptos;
+
 	private Integer creditos;
 	private Integer creditosRequeridos;
 	
@@ -32,6 +34,20 @@ public class Curso {
 		this.log = new Registro();
 	}
 	
+	
+	
+	public Curso(Integer id, String nombre, Integer cicloLectivo, Integer cupo, Integer creditos,
+			Integer creditosRequeridos) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.cicloLectivo = cicloLectivo;
+		this.cupo = cupo;
+		this.creditos = creditos;
+		this.creditosRequeridos = creditosRequeridos;
+	}
+
+
 
 	public Integer getCreditos() {
 		return creditos;
@@ -151,6 +167,7 @@ public class Curso {
 			excepcion1.printStackTrace();
 		}
 	}
+
 
 
 }
