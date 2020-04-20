@@ -26,7 +26,6 @@ public class Curso {
 	private Integer cicloLectivo;
 	private Integer cupo; 
 	private List<Alumno> inscriptos;
-
 	private Integer creditos;
 	private Integer creditosRequeridos;
 	
@@ -40,10 +39,9 @@ public class Curso {
 	
 	
 	
-	public Curso(Integer id, String nombre, Integer cicloLectivo, Integer cupo, Integer creditos,
+	public Curso(String nombre, Integer cicloLectivo, Integer cupo, Integer creditos,
 			Integer creditosRequeridos) {
-		super();
-		this.id = id;
+		this();
 		this.nombre = nombre;
 		this.cicloLectivo = cicloLectivo;
 		this.cupo = cupo;
@@ -147,24 +145,23 @@ public class Curso {
 	 * @return
 	 */
 	public Boolean inscribir(Alumno a) {
-		try {
-			if(a.creditosObtenidos() >= this.creditosRequeridos &&
-					this.inscriptos.size() <= this.cupo &&
-					a.getCursando().size() < 3) {
-				if(this.inscriptos==null) inscriptos = new ArrayList<Alumno>();
-				this.inscriptos.add(a);
-				a.inscripcionAceptada(this);
-			}
-			log.registrar(this, "inscribir ",a.toString());
-			return true;
+		if(a.creditosObtenidos() >= this.creditosRequeridos &&
+				inscriptos.size() < this.cupo &&
+				a.materiasCursando() < 3) {
+			try {
+				log.registrar(this, "inscribir ",a.toString());
+				inscriptos.add(a);
+				a.inscripcionAceptada(this); 
+				return true;
 		}catch (IOException excepcion1) {
 			System.out.println("No se pudo inscribir alumno");
 			excepcion1.printStackTrace();
-			return false;
+			return false; 
 		}
+		}else
+			return false;
+		
 	}
-	
-	
 	/**
 	 * imprime los inscriptos en orden alfabetico
 	 */
@@ -184,7 +181,7 @@ public class Curso {
 				case NROLIBRETA:
 					Collections.sort(this.inscriptos, new Comparator<Alumno>() {
 						public int compare (Alumno a1, Alumno a2) {
-						return a1.getNroLibreta()-a1.getNroLibreta();
+						return a1.getNroLibreta()-a2.getNroLibreta();
 						}
 					});
 						System.out.println(this.inscriptos);

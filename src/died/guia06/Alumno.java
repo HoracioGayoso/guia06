@@ -102,5 +102,12 @@ public class Alumno implements Comparable<Alumno>{
 		}else 
 			return false;
 	}
-
+	public int materiasCursando() {
+		int contador = 0;
+		if(cursando==null) return 0;
+		for (Curso c: cursando) {
+		contador++;
+		}
+		return contador;
+	}
 }
