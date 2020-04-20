@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-
+import died.guia06.util.NoAlcanzaCreditosExcepcion;
+import died.guia06.util.NoHayCupoExcepcion;
 import died.guia06.util.Registro;
+import died.guia06.util.RegistroAuditoriaException;
+import died.guia06.util.TodasMateriasRegularesExcepcion;
 
 /**
  * Clase que representa un curso. Un curso se identifica por su ID y por su nombre y ciclo lectivo.
@@ -162,6 +164,27 @@ public class Curso {
 			return false;
 		
 	}
+	
+	public void inscribirAlumno (Alumno a) throws NoAlcanzaCreditosExcepcion, NoHayCupoExcepcion, TodasMateriasRegularesExcepcion, RegistroAuditoriaException{
+		if(a.creditosObtenidos() >= this.creditosRequeridos) {
+			throw new NoAlcanzaCreditosExcepcion();
+		}
+		if(inscriptos.size() < this.cupo) {
+			throw new NoHayCupoExcepcion();	
+			}
+		if(a.materiasCursando() < 3) {
+			throw new TodasMateriasRegularesExcepcion();
+				}
+			try {
+				log.registrar(this, "inscribir ",a.toString());
+				inscriptos.add(a);
+				a.inscripcionAceptada(this); 
+		}catch (IOException excepcion1) {
+			throw new RegistroAuditoriaException();
+		}
+	}
+	
+	
 	/**
 	 * imprime los inscriptos en orden alfabetico
 	 */
@@ -197,9 +220,9 @@ public class Curso {
 					});
 						System.out.println(this.inscriptos);
 						break;
+						//ORDENA LA LISTA DE INSCRIPTOS POR CANTIDAD DE CREDITOS OBTENIDOS, DE MAYOR A MENOR
 			}
-				//ORDENA LA LISTA DE INSCRIPTOS POR CANTIDAD DE CREDITOS OBTENIDOS, DE MAYOR A MENOR
-			
+				
 		
 			
 		}catch (IOException excepcion1) {
