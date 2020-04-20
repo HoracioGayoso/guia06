@@ -110,4 +110,13 @@ public class Alumno implements Comparable<Alumno>{
 		}
 		return contador;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Alumno [nombre=" + nombre + ", nroLibreta=" + nroLibreta + ", creditosObtenidos()="
+				+ creditosObtenidos() + "]";
+	}
+	
+	
 }

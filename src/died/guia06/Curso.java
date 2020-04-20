@@ -210,7 +210,7 @@ public class Curso {
 
 	@Override
 	public String toString() {
-		return "Curso [getInscriptos()=" + getInscriptos() + "]";
+		return "Curso [nombre=" + nombre + "]";
 	}
 
 	
