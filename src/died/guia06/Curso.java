@@ -166,13 +166,13 @@ public class Curso {
 	}
 	
 	public void inscribirAlumno (Alumno a) throws NoAlcanzaCreditosExcepcion, NoHayCupoExcepcion, TodasMateriasRegularesExcepcion, RegistroAuditoriaException{
-		if(a.creditosObtenidos() >= this.creditosRequeridos) {
+		if(a.creditosObtenidos() < this.creditosRequeridos) {
 			throw new NoAlcanzaCreditosExcepcion();
 		}
-		if(inscriptos.size() < this.cupo) {
+		if(inscriptos.size() >= this.cupo) {
 			throw new NoHayCupoExcepcion();	
 			}
-		if(a.materiasCursando() < 3) {
+		if(a.materiasCursando() > 2) {
 			throw new TodasMateriasRegularesExcepcion();
 				}
 			try {
@@ -236,5 +236,4 @@ public class Curso {
 		return "Curso [nombre=" + nombre + "]";
 	}
 
-	
 }

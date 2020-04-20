@@ -8,6 +8,12 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import died.guia06.util.NoAlcanzaCreditosExcepcion;
+import died.guia06.util.NoHayCupoExcepcion;
+import died.guia06.util.Registro;
+import died.guia06.util.RegistroAuditoriaException;
+import died.guia06.util.TodasMateriasRegularesExcepcion;
+
 
 public class CursoTest{
 	Curso C1, C2, C3, C4, C5;
@@ -36,7 +42,7 @@ public class CursoTest{
 		assertEquals(creditos, 0);
 		}
 	@Test
-	void NoInscribirPorExcesoDeInscriptos() {
+	void NoInscribirPorFaltaDeCupo() {
 		C2.inscribir(a1);
 		C2.inscribir(a2);
 		C2.inscribir(a3);
@@ -101,4 +107,63 @@ public class CursoTest{
 		assertEquals(listaAux, C2.getInscriptos());
 	}
 	
+	@Test
+	void NoInscribirPorFaltaDeCreditosExcepcion() {
+		boolean fallo = false;
+		try {
+			C1.inscribirAlumno(a1);
+		}catch(NoAlcanzaCreditosExcepcion Excepcion1) {
+			fallo = true;
+		}catch(NoHayCupoExcepcion |TodasMateriasRegularesExcepcion
+				| RegistroAuditoriaException e) {}
+		
+		assertTrue(fallo);
+	}
+	@Test
+	void NoInscribirPorFaltaDeCupoExcepcion() {
+		boolean fallo = false;
+		try {
+			C2.inscribirAlumno(a1);
+			C2.inscribirAlumno(a3);
+			C2.inscribirAlumno(a4);
+		} catch (NoAlcanzaCreditosExcepcion | NoHayCupoExcepcion | TodasMateriasRegularesExcepcion
+				| RegistroAuditoriaException e) {
+		}
+		try {
+			C2.inscribirAlumno(a2);
+		}catch(NoHayCupoExcepcion Excepcion1) {
+			fallo = true;
+		}catch(NoAlcanzaCreditosExcepcion |TodasMateriasRegularesExcepcion
+				| RegistroAuditoriaException e) {}
+		assertTrue(fallo);
+	}
+	@Test
+	void NoInscribirPorExcesoDeMateriasCursandoExcepcion() {
+		boolean fallo = false;
+		try {
+			C2.inscribirAlumno(a1);
+			C3.inscribirAlumno(a1);
+			C4.inscribirAlumno(a1);
+		} catch (NoAlcanzaCreditosExcepcion | NoHayCupoExcepcion | TodasMateriasRegularesExcepcion
+				| RegistroAuditoriaException e) {
+		}
+		try {
+			C5.inscribirAlumno(a1);
+		}catch(TodasMateriasRegularesExcepcion Excepcion1) {
+			fallo = true;
+		}catch(NoAlcanzaCreditosExcepcion | NoHayCupoExcepcion | RegistroAuditoriaException e) {}
+		assertTrue(fallo);
+	}
+	@Test 
+	void inscribirAlumnoCorrectamente(){
+		boolean fallo = false;
+		try {
+			C2.inscribirAlumno(a1);
+		}catch(NoHayCupoExcepcion |TodasMateriasRegularesExcepcion | NoAlcanzaCreditosExcepcion
+				| RegistroAuditoriaException e) {
+			fallo = true;
+		}
+		
+		assertFalse(fallo);
+	}
 }
